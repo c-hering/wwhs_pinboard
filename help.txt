@@ -1,0 +1,16 @@
+REGULAR START:
+	npm start
+
+RUNNING IN BACKGROUND:
+	./start
+
+FIND PROCESS ID:
+	ps -A | grep npm
+		OR
+	ps -A | grep node
+
+KILL JOB:
+	kill $PID
+		OR
+	killall -9 node
+
