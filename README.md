@@ -7,7 +7,7 @@ This is a REST server running on Node.js and Express
 GET from / -> get home page, currently only displays a simple message</br>
 POST to /messages -> post message from SMS, should work for Twilio numbers (if correctly set up), only prints message to console, does not add to sqlite db
   
-### Future Status
+### TODO:
 GET from / -> get home page, display all messages stored on a sqlite db</br>
 POST to /messages -> add message from SMS to sqlite db
   
