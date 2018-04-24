@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { Panel, Table, Well } from 'react-bootstrap';
 import MessageRow from './MessageRow';
+
+
 export default class PinContainer extends Component {
-
-  constructor(props) {
-      super(props);
-      this.state = {
-        practiceData: []
-      };
-  }
-
 
   rateUp = msgID => {
     console.log(msgID + " was pressed")
