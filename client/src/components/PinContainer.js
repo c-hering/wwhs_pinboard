@@ -4,6 +4,10 @@ import MessageRow from './MessageRow';
 
 
 export default class PinContainer extends Component {
+  constructor(props) {
+      super(props);
+      this.state = {messages: []};
+  }
 
   rateUp = msgID => {
     console.log(msgID + " was pressed")
@@ -14,21 +18,7 @@ export default class PinContainer extends Component {
   }
 
   getRowData = () => {
-    var messages = [];
-    // for(var i = 0; i < 5; i++){
-    //   messages.push(<MessageRow key={i} onRateUp={() => this.rateUp()} onRateDown={() => this.rateDown(i)} id={i} rating={Math.floor(Math.random() * 400)} message="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />)
-    // }
-    fetch('/messages')
-      .then(res => {
-        res.json().then(msgJSON => {
-          msgJSON.map((row,index) => {
-            console.log(row.ID, row.RATING, row.MSG)
-            messages.push(<MessageRow key={row.ID} onRateUp={() => this.rateUp(row.ID)} onRateDown={() => this.rateDown(row.ID)} id={index} rating={row.RATING} message={row.MSG}/>)
-          })
-          console.log(messages)
-          return <tbody>{messages}</tbody>;
-      })
-    })
+
   }
 
   renderSortBy = sortby => {
@@ -43,12 +33,26 @@ export default class PinContainer extends Component {
               <th>Message</th>
             </tr>
           </thead>
-          {this.getRowData()}
+          {this.state.messages}
         </Table>
       )
     }else{
       console.log("Sorting messages by hottest")
     }
+  }
+
+  componentDidMount = () => {
+    var msgs = [];
+    fetch('/messages')
+      .then(res => {
+        res.json().then(msgJSON => {
+          msgJSON.map((row,index) => {
+            console.log(row.ID, row.RATING, row.MSG)
+            msgs.push(<tbody><MessageRow key={row.ID} onRateUp={() => this.rateUp(row.ID)} onRateDown={() => this.rateDown(row.ID)} id={index} rating={row.RATING} message={row.MSG}/></tbody>)
+          })
+        this.setState({messages: msgs})
+      })
+    })
   }
 
   render(){
