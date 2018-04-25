@@ -15,5 +15,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "disableHostCheck": true,
+  "homepage": "http://ec2-52-14-193-119.us-east-2.compute.amazonaws.com/",
   "proxy": "http://localhost:3001"
 }
