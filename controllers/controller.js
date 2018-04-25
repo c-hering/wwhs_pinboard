@@ -18,17 +18,18 @@ exports.getMessages = (req,res) => {
 	});
 };
 
-exports.getRating = (req,res) => {
-	let id = parseInt(req.query.id)
-	if(!isNaN()){
-		db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,RATING INT NOT NULL,MSG TEST NOT NULL);')
-		db.each('SELECT rating FROM messages WHERE id='+req.query.id, (err,row) => {
-			res.send(row.rating)
-		})
-	}else{
-		res.send("invalid query parameter")
-	}
-}
+// useless routing, kept for example?
+// exports.getRating = (req,res) => {
+// 	let id = parseInt(req.query.id)
+// 	if(!isNaN()){
+// 		db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,RATING INT NOT NULL,MSG TEST NOT NULL);')
+// 		db.each('SELECT rating FROM messages WHERE id='+req.query.id, (err,row) => {
+// 			res.send(row.rating)
+// 		})
+// 	}else{
+// 		res.send("invalid query parameter")
+// 	}
+// }
 
 exports.newMessage = (req,res) => {
 	console.log(req.body);
