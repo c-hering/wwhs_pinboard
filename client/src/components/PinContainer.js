@@ -17,10 +17,6 @@ export default class PinContainer extends Component {
     console.log(msgID + " was pressed")
   }
 
-  getRowData = () => {
-
-  }
-
   renderSortBy = sortby => {
     if(sortby == 'newest'){
       console.log("Sorting messages by newest")
