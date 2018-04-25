@@ -6,6 +6,30 @@ exports.home = (req,res) => {
 	res.send("WWHS Pinboard!")
 };
 
+exports.getMessages = (req,res) => {
+	var data = [];
+
+	db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,RATING INT NOT NULL,MSG TEST NOT NULL);')
+	db.each('SELECT id, rating, msg FROM messages', (err,row) => {
+		let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
+		data.push(row);
+	}, () => {
+		res.send(data);
+	});
+};
+
+exports.getRating = (req,res) => {
+	let id = parseInt(req.query.id)
+	if(!isNaN()){
+		db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,RATING INT NOT NULL,MSG TEST NOT NULL);')
+		db.each('SELECT rating FROM messages WHERE id='+req.query.id, (err,row) => {
+			res.send(row.rating)
+		})
+	}else{
+		res.send("invalid query parameter")
+	}
+}
+
 exports.newMessage = (req,res) => {
 	console.log(req.body);
 
@@ -26,16 +50,4 @@ exports.newMessage = (req,res) => {
 	}
 	// for twilio only
 	// res.send("<Response><Message>Thanks for contributing to the pinboard!</Message></Response>");
-};
-
-exports.getMessages = (req,res) => {
-	var data = [];
-
-	db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,RATING INT NOT NULL,MSG TEST NOT NULL);')
-	db.each('SELECT id, rating, msg FROM messages', (err,row) => {
-		let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
-		data.push(row);
-	}, () => {
-		res.send(data);
-	});
 };
