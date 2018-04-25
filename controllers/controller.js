@@ -24,21 +24,18 @@ exports.newMessage = (req,res) => {
 		console.log("ERR: empty body in post req")
 		res.send("Error adding message, seems you didn't send anything!")
 	}
-
-
 	// for twilio only
 	// res.send("<Response><Message>Thanks for contributing to the pinboard!</Message></Response>");
 };
 
 exports.getMessages = (req,res) => {
-	console.log("connection made for tester");
+	var data = [];
 
-	db.serialize(() => {
-		db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,RATING INT NOT NULL,MSG TEST NOT NULL);')
-		db.each('SELECT id, rating, msg FROM messages', (err,row) => {
-			console.log(row)
-		})
-	})
-
-	res.send("Test Successful!");
+	db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,RATING INT NOT NULL,MSG TEST NOT NULL);')
+	db.each('SELECT id, rating, msg FROM messages', (err,row) => {
+		let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
+		data.push(row);
+	}, () => {
+		res.send(data);
+	});
 };
