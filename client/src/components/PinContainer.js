@@ -17,26 +17,6 @@ export default class PinContainer extends Component {
     console.log(msgID + " was pressed")
   }
 
-  renderSortBy = sortby => {
-    if(sortby == 'newest'){
-      console.log("Sorting messages by newest")
-      return (
-        <Table striped bordered condensed hover>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Rating</th>
-              <th>Message</th>
-            </tr>
-          </thead>
-          {this.state.messages}
-        </Table>
-      )
-    }else{
-      console.log("Sorting messages by hottest")
-    }
-  }
-
   componentDidMount = () => {
     var msgs = [];
     fetch('/messages')
@@ -58,7 +38,16 @@ export default class PinContainer extends Component {
           <Panel.Title componentClass="h3">{this.props.title}</Panel.Title>
           </Panel.Heading>
         <Panel.Body>
-          {this.renderSortBy(this.props.sortBy)}
+          <Table striped bordered condensed hover>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Rating</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            {this.state.messages}
+          </Table>
         </Panel.Body>
       </Panel>
     );
