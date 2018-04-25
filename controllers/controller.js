@@ -29,17 +29,13 @@ exports.getMessages = (req,res) => {
 // 	}else{
 // 		res.send("invalid query parameter")
 // 	}
-// }
+// };
 
 exports.newMessage = (req,res) => {
-	console.log(req.body);
-
 	if(req.body !== {}){
 		var id = req.body.id;
 		var rating = req.body.rating;
 		var message = req.body.msg;
-
-		console.log(id)
 
 		db.serialize(() => {
 			db.run("INSERT INTO messages (ID,RATING,MSG) \ VALUES (" + id + "," + rating + "," + message + ")")
@@ -47,8 +43,34 @@ exports.newMessage = (req,res) => {
 		res.send("Message Added!")
 	}else{
 		console.log("ERR: empty body in post req")
-		res.send("Error adding message, seems you didn't send anything!")
+		res.send("Invalid Body")
 	}
 	// for twilio only
 	// res.send("<Response><Message>Thanks for contributing to the pinboard!</Message></Response>");
+};
+
+exports.handleRating = (req,res) => {
+	if(req.body !== {}){
+		var id = req.body.id
+		var voteType = req.body.vote
+		if(id !== null && voteType !== null){
+			switch(voteType){
+				case "up":
+					db.serialize(() => {
+						db.run("UPDATE messages SET rating=rating+1 WHERE id=" + id)
+					})
+					res.send("Rating incremented up")
+					break
+				case "down":
+					db.serialize(() => {
+						db.run("UPDATE messages SET rating=rating-1 WHERE id=" + id)
+					})
+					res.send("Rating incremented down")
+			}
+		}else{
+			res.send("Invalid Body Params")
+		}
+	}else{
+		res.send("Invalid Body")
+	}
 };

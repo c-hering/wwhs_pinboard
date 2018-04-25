@@ -6,4 +6,5 @@ module.exports = app => {
 	// app.route('/rating').get(controller.getRating);
 
 	app.route('/messages').post(controller.newMessage);
+	app.route('/rating').post(controller.handleRating);
 };
