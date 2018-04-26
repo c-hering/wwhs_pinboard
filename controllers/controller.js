@@ -6,18 +6,37 @@ exports.home = (req,res) => {
 	res.send("WWHS Pinboard!")
 };
 
-exports.getMessages = (req,res) => {
-	var data = [];
-
-	db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,RATING INT NOT NULL,MSG TEST NOT NULL);')
-	db.each('SELECT id, rating, msg FROM messages', (err,row) => {
-		let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
-		data.push(row);
-	}, () => {
-		res.send(data);
-	});
+exports.deleteMessages = (req,res) => {
+	// db.run('DELETE FROM messages')
+	db.run('DROP TABLE messages')
+	db.run('VACUUM')
+	res.send('messages deleted')
 };
 
+exports.getMessages = (req,res) => {
+	var offset = parseInt(req.params.page) * 50
+	if(req.params.order === 'time'){
+		var data = [];
+		db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
+		db.each('SELECT id, rating, msg FROM messages ORDER BY datetime(TIMESTAMP) DESC LIMIT 50 OFFSET ' + offset, (err,row) => {
+			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
+			data.push(row);
+		}, () => {
+			res.send(data);
+		});
+	}else if(req.params.order == 'rating'){
+		var data = [];
+		db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
+		db.each('SELECT id, rating, msg FROM messages ORDER BY rating ASC LIMIT 50 OFFSET ' + offset, (err,row) => {
+			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
+			data.push(row);
+		}, () => {
+			res.send(data);
+		});
+	}else{
+		res.send('invalid parameter')
+	}
+};
 // useless routing, kept for example?
 // exports.getRating = (req,res) => {
 // 	let id = parseInt(req.query.id)
@@ -32,13 +51,14 @@ exports.getMessages = (req,res) => {
 // };
 
 exports.newMessage = (req,res) => {
+	db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
 	if(req.body !== {}){
 		var id = req.body.id;
 		var rating = req.body.rating;
 		var message = req.body.msg;
 
 		db.serialize(() => {
-			db.run("INSERT INTO messages (ID,RATING,MSG) \ VALUES (" + id + "," + rating + "," + message + ")")
+			db.run("INSERT INTO messages (ID,TIMESTAMP,RATING,MSG) \ VALUES (" + id + "," + "datetime('now','localtime')," + rating + "," + message + ")")
 		})
 		res.send("Message Added!")
 	}else{

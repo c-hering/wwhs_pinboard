@@ -6,7 +6,10 @@ import MessageRow from './MessageRow';
 export default class PinContainer extends Component {
   constructor(props) {
       super(props);
-      this.state = {messages: []};
+      this.state = {
+        messages: [],
+        page: 0
+      };
   }
 
   rateUp = msgID => {
@@ -35,8 +38,9 @@ export default class PinContainer extends Component {
 
   componentDidMount = () => {
     var msgs = [];
-    fetch('/messages')
+    fetch('/messages/' + this.props.sortBy + '/' + this.state.page)
       .then(res => {
+        console.log(res)
         res.json().then(msgJSON => {
           msgJSON.map((row,index) => {
             msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rateUp(row.ID)} onRateDown={() => this.rateDown(row.ID)} id={index} rating={row.RATING} message={row.MSG}/>)

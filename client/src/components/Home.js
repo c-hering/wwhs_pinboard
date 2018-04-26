@@ -18,7 +18,7 @@ export default class Home extends Component {
               messages sent to a number by Walt Whitman Students. <br/><br/> Posts can then be seen by the latest sent, or by the most popular.
             </Panel.Body>
           </Panel>
-          <PinContainer title="Newest" sortBy="newest"/>
+          <PinContainer title="Newest" sortBy="time"/>
         </div>
       </div>
     );

@@ -7,7 +7,7 @@ export default class Hottest extends Component {
     return(
       <div style={{margin: 'auto', width: '80%', padding: 10}}>
         <PageHeader>Hottest</PageHeader>
-        <PinContainer title="Hottest" sortBy="hottest"/>
+        <PinContainer title="Most Popular" sortBy="rating"/>
       </div>
     );
   }
