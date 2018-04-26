@@ -27,7 +27,7 @@ exports.getMessages = (req,res) => {
 	}else if(req.params.order == 'rating'){
 		var data = [];
 		db.run('CREATE TABLE IF NOT EXISTS messages (ID INT PRIMARY KEY NOT NULL,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
-		db.each('SELECT id, rating, msg FROM messages ORDER BY rating ASC LIMIT 50 OFFSET ' + offset, (err,row) => {
+		db.each('SELECT id, rating, msg FROM messages ORDER BY rating DESC LIMIT 50 OFFSET ' + offset, (err,row) => {
 			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
 			data.push(row);
 		}, () => {

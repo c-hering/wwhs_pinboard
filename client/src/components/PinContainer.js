@@ -40,7 +40,6 @@ export default class PinContainer extends Component {
     var msgs = [];
     fetch('/messages/' + this.props.sortBy + '/' + this.state.page)
       .then(res => {
-        console.log(res)
         res.json().then(msgJSON => {
           msgJSON.map((row,index) => {
             msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rateUp(row.ID)} onRateDown={() => this.rateDown(row.ID)} id={index} rating={row.RATING} message={row.MSG}/>)
