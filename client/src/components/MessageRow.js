@@ -20,7 +20,7 @@ export default class MessageRow extends Component {
         upPressed: !(this.state.upPressed)
       })
     }
-    this.props.onRateUp
+    this.props.onRateUp()
   }
 
   onClickDown = () => {
@@ -34,7 +34,7 @@ export default class MessageRow extends Component {
         downPressed: !(this.state.downPressed)
       })
     }
-    this.props.onRateDown
+    this.props.onRateDown()
   }
 
   render(){

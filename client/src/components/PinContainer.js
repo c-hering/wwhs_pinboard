@@ -11,10 +11,27 @@ export default class PinContainer extends Component {
 
   rateUp = msgID => {
     console.log(msgID + " was pressed")
+    fetch("/rating",
+    {
+      headers: {
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      },
+      method: "POST",
+      body: JSON.stringify({id: ''+msgID, vote: 'up'})
+    }).then(res => console.log(res))
   }
 
   rateDown = msgID => {
     console.log(msgID + " was pressed")
+    let bod = {id:""+msgID, vote:"down"}
+    fetch("/rating",
+    {
+      headers: {
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      },
+      method: "POST",
+      body: JSON.parse(bod)
+    }).then(res => console.log(res))
   }
 
   componentDidMount = () => {
@@ -23,10 +40,9 @@ export default class PinContainer extends Component {
       .then(res => {
         res.json().then(msgJSON => {
           msgJSON.map((row,index) => {
-            console.log(row.ID, row.RATING, row.MSG)
-            msgs.push(<tbody><MessageRow key={row.ID} onRateUp={() => this.rateUp(row.ID)} onRateDown={() => this.rateDown(row.ID)} id={index} rating={row.RATING} message={row.MSG}/></tbody>)
+            msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rateUp(row.ID)} onRateDown={() => this.rateDown(row.ID)} id={index} rating={row.RATING} message={row.MSG}/>)
           })
-        this.setState({messages: msgs})
+        this.setState({messages: <tbody>{msgs}</tbody>})
       })
     })
   }
