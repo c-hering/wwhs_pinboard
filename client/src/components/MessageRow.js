@@ -6,32 +6,39 @@ export default class MessageRow extends Component {
       super(props);
       this.state = {
         upPressed: false,
-        downPressed: false};
+        downPressed: false,
+        rating: this.props.rating
+      };
   }
 
   onClickUp = () => {
     if(this.state.downPressed){
       this.setState({
         downPressed: false,
-        upPressed: !(this.state.upPressed)
+        upPressed: !(this.state.upPressed),
+        rating: this.state.rating+2
       })
     }else{
       this.setState({
-        upPressed: !(this.state.upPressed)
+        upPressed: !(this.state.upPressed),
+        rating: this.state.rating+1
       })
     }
     this.props.onRateUp()
   }
 
   onClickDown = () => {
+
     if(this.state.upPressed){
       this.setState({
         upPressed: false,
-        downPressed: !(this.state.downPressed)
+        downPressed: !(this.state.downPressed),
+        rating: this.state.rating-2
       })
     }else{
       this.setState({
-        downPressed: !(this.state.downPressed)
+        downPressed: !(this.state.downPressed),
+        rating: this.state.rating-1
       })
     }
     this.props.onRateDown()
@@ -44,7 +51,7 @@ export default class MessageRow extends Component {
         <td>
           <Button style={{color: '#009B9E',}} disabled={this.state.upPressed} onClick={this.onClickUp}>
             <Glyphicon glyph="chevron-up"/>
-          </Button><br/>{this.props.rating}<br/>
+          </Button><br/>{this.state.rating}<br/>
           <Button style={{color: '#009B9E',}} disabled={this.state.downPressed} onClick={this.onClickDown}>
             <Glyphicon glyph="chevron-down"/>
           </Button>

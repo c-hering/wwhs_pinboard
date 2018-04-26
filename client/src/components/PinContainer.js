@@ -14,7 +14,7 @@ export default class PinContainer extends Component {
     fetch("/rating",
     {
       headers: {
-        'Content-Type' : 'application/x-www-form-urlencoded'
+        'Content-Type' : 'application/json'
       },
       method: "POST",
       body: JSON.stringify({id: ''+msgID, vote: 'up'})
@@ -23,14 +23,13 @@ export default class PinContainer extends Component {
 
   rateDown = msgID => {
     console.log(msgID + " was pressed")
-    let bod = {id:""+msgID, vote:"down"}
     fetch("/rating",
     {
       headers: {
-        'Content-Type' : 'application/x-www-form-urlencoded'
+        'Content-Type' : 'application/json'
       },
       method: "POST",
-      body: JSON.parse(bod)
+      body: JSON.stringify({id: ''+msgID, vote: 'down'})
     }).then(res => console.log(res))
   }
 

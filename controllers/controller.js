@@ -50,7 +50,6 @@ exports.newMessage = (req,res) => {
 };
 
 exports.handleRating = (req,res) => {
-	console.log(req.body)
 	if(req.body !== {}){
 		var id = req.body.id
 		var voteType = req.body.vote
@@ -60,14 +59,12 @@ exports.handleRating = (req,res) => {
 					db.serialize(() => {
 						db.run("UPDATE messages SET rating=rating+1 WHERE id=" + id)
 					})
-					console.log("Rating incremented up")
 					res.send("Rating incremented up")
 					break
 				case "down":
 					db.serialize(() => {
 						db.run("UPDATE messages SET rating=rating-1 WHERE id=" + id)
 					})
-					console.log("Rating incremented down")
 					res.send("Rating incremented down")
 			}
 		}else{
