@@ -78,13 +78,13 @@ exports.handleRating = (req,res) => {
 			switch(voteType){
 				case "up":
 					db.serialize(() => {
-						db.run("UPDATE messages SET rating=rating+1 WHERE id=" + id)
+						db.run("UPDATE messages SET rating=rating+1 WHERE id=" + "'" + id + "'")
 					})
 					res.send("Rating incremented up")
 					break
 				case "down":
 					db.serialize(() => {
-						db.run("UPDATE messages SET rating=rating-1 WHERE id=" + id)
+						db.run("UPDATE messages SET rating=rating-1 WHERE id=" + "'" + id + "'")
 					})
 					res.send("Rating incremented down")
 			}

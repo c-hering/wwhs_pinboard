@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { PageHeader,Panel } from 'react-bootstrap';
+import { PageHeader,Panel,Alert } from 'react-bootstrap';
 import PinContainer from './PinContainer';
+import WarningDismissable from './WarningDismissable';
 
 export default class Home extends Component {
-
   render(){
     return (
       <div style={{margin: 'auto', width: '80%', padding: 10}}>
         <PageHeader>Home</PageHeader>
         <div>
+        <WarningDismissable/>
           <Panel>
             <Panel.Heading>
               <Panel.Title componentClass="h3">About This Site</Panel.Title>
