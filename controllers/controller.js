@@ -24,7 +24,7 @@ exports.getMessages = (req,res) => {
 			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
 			data.push(row);
 		}, () => {
-			res.send(data);
+			res.json(data);
 		});
 	}else if(req.params.order == 'rating'){
 		var data = [];
@@ -33,7 +33,7 @@ exports.getMessages = (req,res) => {
 			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
 			data.push(row);
 		}, () => {
-			res.send(data);
+			res.json(data);
 		});
 	}else{
 		res.send('invalid parameter')
