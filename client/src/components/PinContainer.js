@@ -23,7 +23,7 @@ export default class PinContainer extends Component {
     }).then(res => console.log(res))
   }
 
-  componentDidMount = () => {
+  fetchMessages = () => {
     var msgs = [];
     fetch('/messages/' + this.props.sortBy + '/' + this.state.page)
       .then(res => {
@@ -34,6 +34,10 @@ export default class PinContainer extends Component {
         this.setState({messages: <tbody>{msgs}</tbody>})
       })
     })
+  }
+
+  componentDidMount = () => {
+    this.fetchMessages()
   }
 
   render(){
