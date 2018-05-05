@@ -3,6 +3,7 @@ module.exports = app => {
 
 	app.route('/').get(controller.home);
 	app.route('/messages/:order/:page').get(controller.getMessages);
+	app.route('/messages/length').get(controller.getMessagesLen);
 	// app.route('/rating').get(controller.getRating);
 	//app.route('/deleteMessages').get(controller.deleteMessages);
 

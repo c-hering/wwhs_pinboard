@@ -39,6 +39,15 @@ exports.getMessages = (req,res) => {
 		res.send('invalid parameter')
 	}
 };
+
+exports.getMessagesLen = (req,res) => {
+	db.each("SELECT count(*) FROM messages;", (err,len) => {
+		let tmp = JSON.stringify(len).split(':');
+		tmp = tmp[1].split('}');
+		res.send(tmp[0]);
+	});
+};
+
 // useless routing, kept for example?
 // exports.getRating = (req,res) => {
 // 	let id = parseInt(req.query.id)
