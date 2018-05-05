@@ -12,27 +12,14 @@ export default class PinContainer extends Component {
       };
   }
 
-  rateUp = msgID => {
-    console.log(msgID + " was pressed")
+  rate = (msgID, voteType) => {
     fetch("/rating",
     {
       headers: {
         'Content-Type' : 'application/json'
       },
       method: "POST",
-      body: JSON.stringify({id: ''+msgID, vote: 'up'})
-    }).then(res => console.log(res))
-  }
-
-  rateDown = msgID => {
-    console.log(msgID + " was pressed")
-    fetch("/rating",
-    {
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify({id: ''+msgID, vote: 'down'})
+      body: JSON.stringify({id: ''+msgID, vote: voteType})
     }).then(res => console.log(res))
   }
 
@@ -42,7 +29,7 @@ export default class PinContainer extends Component {
       .then(res => {
         res.json().then(msgJSON => {
           msgJSON.map((row,index) => {
-            msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rateUp(row.ID)} onRateDown={() => this.rateDown(row.ID)} id={index} rating={row.RATING} message={row.MSG}/>)
+            msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rate(row.ID, 'up')} onRateDown={() => this.rate(row.ID,  'down')} id={index} rating={row.RATING} message={row.MSG}/>)
           })
         this.setState({messages: <tbody>{msgs}</tbody>})
       })
