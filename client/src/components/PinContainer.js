@@ -8,6 +8,7 @@ export default class PinContainer extends Component {
       super(props);
       this.state = {
         messages: [],
+        tableLen: 0,
         page: 0
       };
   }
@@ -23,16 +24,28 @@ export default class PinContainer extends Component {
     }).then(res => console.log(res))
   }
 
+  fetchMessagesLen = () => {
+    fetch('/messages/length')
+      .then(res => {
+        return res.text()
+      }).then(len => {
+        this.setState({
+          tableLen: parseInt(len/50)
+        })
+      })
+  }
+
   fetchMessages = () => {
     var msgs = [];
+    this.fetchMessagesLen()
     fetch('/messages/' + this.props.sortBy + '/' + this.state.page)
       .then(res => {
-        res.json().then(msgJSON => {
-          msgJSON.map((row,index) => {
-            msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rate(row.ID, 'up')} onRateDown={() => this.rate(row.ID,  'down')} id={index} rating={row.RATING} message={row.MSG}/>)
-          })
-        this.setState({messages: <tbody>{msgs}</tbody>})
-      })
+        return res.json()
+      }).then(msgJSON => {
+        msgJSON.map((row,index) => {
+          msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rate(row.ID, 'up')} onRateDown={() => this.rate(row.ID,  'down')} id={index} rating={row.RATING} message={row.MSG}/>)
+        })
+      this.setState({messages: <tbody>{msgs}</tbody>})
     })
   }
 
