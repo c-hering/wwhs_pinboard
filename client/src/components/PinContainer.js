@@ -14,7 +14,7 @@ export default class PinContainer extends Component {
   }
 
   rate = (msgID, voteType) => {
-    fetch("/rating",
+    fetch("http://localhost:3001/rating",
     {
       headers: {
         'Content-Type' : 'application/json'
@@ -25,7 +25,7 @@ export default class PinContainer extends Component {
   }
 
   fetchMessagesLen = () => {
-    fetch('/messages/length')
+    fetch('http://localhost:3001/messages/length')
       .then(res => {
         return res.text()
       }).then(len => {
@@ -38,7 +38,7 @@ export default class PinContainer extends Component {
   fetchMessages = () => {
     var msgs = [];
     this.fetchMessagesLen()
-    fetch('/messages/' + this.props.sortBy + '/' + this.state.page)
+    fetch('http://localhost:3001/messages/' + this.props.sortBy + '/' + this.state.page)
       .then(res => {
         return res.json()
       }).then(msgJSON => {
@@ -54,24 +54,24 @@ export default class PinContainer extends Component {
   }
 
   render(){
-    return(
-      <Panel>
-        <Panel.Heading>
-          <Panel.Title componentClass="h3">{this.props.title}</Panel.Title>
-          </Panel.Heading>
-        <Panel.Body>
-          <Table striped bordered condensed hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Rating</th>
-                <th>Message</th>
-              </tr>
-            </thead>
-            {this.state.messages}
-          </Table>
-        </Panel.Body>
-      </Panel>
-    );
+      return(
+        <Panel>
+          <Panel.Heading>
+            <Panel.Title componentClass="h3">{this.props.title}</Panel.Title>
+            </Panel.Heading>
+          <Panel.Body>
+            <Table striped bordered condensed hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Rating</th>
+                  <th>Message</th>
+                </tr>
+              </thead>
+              {this.state.messages}
+            </Table>
+          </Panel.Body>
+        </Panel>
+      );
   }
 }
