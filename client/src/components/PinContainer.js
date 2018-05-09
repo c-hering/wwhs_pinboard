@@ -14,7 +14,7 @@ export default class PinContainer extends Component {
   }
 
   rate = (msgID, voteType) => {
-    fetch("http://localhost:3001/rating",
+    fetch("http://ec2-52-14-193-119.us-east-2.compute.amazonaws.com:3001/rating",
     {
       headers: {
         'Content-Type' : 'application/json'
@@ -25,7 +25,7 @@ export default class PinContainer extends Component {
   }
 
   fetchMessagesLen = () => {
-    fetch('http://localhost:3001/messages/length')
+    fetch('http://ec2-52-14-193-119.us-east-2.compute.amazonaws.com:3001/messages/length')
       .then(res => {
         return res.text()
       }).then(len => {
@@ -38,7 +38,7 @@ export default class PinContainer extends Component {
   fetchMessages = () => {
     var msgs = [];
     this.fetchMessagesLen()
-    fetch('http://localhost:3001/messages/' + this.props.sortBy + '/' + this.state.page)
+    fetch('http://ec2-52-14-193-119.us-east-2.compute.amazonaws.com:3001/messages/' + this.props.sortBy + '/' + this.state.page)
       .then(res => {
         return res.json()
       }).then(msgJSON => {
