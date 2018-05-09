@@ -27,8 +27,7 @@ export default class WarningDismissable extends React.Component {
         <Alert bsStyle="danger" onDismiss={this.handleDismiss}>
           <h4>Please Read!</h4>
           <p>
-            By visting this site you are susceptible to lude and/or foul language and ideas, this site is in no form responsible for
-            what is posted, which will not be removed unless it be deemed a direct threat to a person or persons.
+            Any posts deemed offensive will be removed.
 
             All posts stay anonymous.
 
