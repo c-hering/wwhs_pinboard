@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Panel, Table, Well } from 'react-bootstrap';
 import MessageRow from './MessageRow';
+import PageNav from './PageNav';
 
 
 export default class PinContainer extends Component {
@@ -24,6 +25,13 @@ export default class PinContainer extends Component {
     }).then(res => console.log(res))
   }
 
+  loadNew = () => {
+    this.setState({
+      page: this.state.page++
+    })
+    this.fetchMessages()
+  }
+
   fetchMessagesLen = () => {
     fetch('http://ec2-52-14-193-119.us-east-2.compute.amazonaws.com:3001/messages/length')
       .then(res => {
@@ -45,7 +53,7 @@ export default class PinContainer extends Component {
         msgJSON.map((row,index) => {
           msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rate(row.ID, 'up')} onRateDown={() => this.rate(row.ID,  'down')} id={index} rating={row.RATING} message={row.MSG}/>)
         })
-      this.setState({messages: <tbody>{msgs}</tbody>})
+      this.setState({messages: this.state.messages.concat(msgs)})
     })
   }
 
@@ -54,6 +62,7 @@ export default class PinContainer extends Component {
   }
 
   render(){
+      const loadMessage = this.state.tableLen > 49 && this.state.tableLen%50 > this.state.page ? <PageNav onPress={() => this.loadNew()}/> : <h5>No more messages...</h5>
       return(
         <Panel>
           <Panel.Heading>
@@ -68,9 +77,12 @@ export default class PinContainer extends Component {
                   <th>Message</th>
                 </tr>
               </thead>
-              {this.state.messages}
+              <tbody>
+                {this.state.messages}
+              </tbody>
             </Table>
           </Panel.Body>
+        {loadMessage}
         </Panel>
       );
   }
