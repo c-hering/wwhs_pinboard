@@ -2,7 +2,12 @@ var sqlite3 = require('sqlite3').verbose()
 const uuidGen = require('uuid/v4')
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 var db = new sqlite3.Database('./serverdb.db')
-
+const SimpleNodeLogger = require('simple-node-logger'),
+    opts = {
+        logFilePath:'mylogfile.log',
+        timestampFormat:'YYYY-MM-DD HH:mm:ss.SSS'
+    },
+log = SimpleNodeLogger.createSimpleLogger( opts );
 
 exports.home = (req,res) => {
 	console.log("There must be some mistake!");
@@ -73,7 +78,8 @@ exports.testSMS = (req,res) => {
 
 exports.newMessage = (req,res) => {
 	db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
-	console.log(req.body)
+	// console.log(req.body)
+	log.info(req.body);
 	if(req.body !== {}){
 		var id = uuidGen();
 		var message = req.body.Body;

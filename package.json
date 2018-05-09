@@ -15,6 +15,7 @@
   "dependencies": {
     "b64-to-blob": "^1.2.19",
     "body-parser": "^1.18.2",
+    "simple-node-logger": "^0.93.37",
     "sqlite3": "^4.0.0",
     "twilio": "^3.16.0",
     "uuid": "^3.2.1"
