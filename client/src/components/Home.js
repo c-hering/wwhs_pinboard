@@ -16,7 +16,7 @@ export default class Home extends Component {
               </Panel.Heading>
             <Panel.Body>
               This site was created by <a href="https:\\c-hering.github.io">Caleb Hering</a>, it is a collection of 'pins' made up of
-              messages sent to a number by Walt Whitman Students. <br/><br/> Posts can then be seen by the latest sent, or by the most popular.
+              messages sent to a number by anonymous people. <br/><br/> Posts can then be seen by the latest sent, or by the most popular.
             </Panel.Body>
           </Panel>
           <PinContainer title="Newest" sortBy="time"/>

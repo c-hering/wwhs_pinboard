@@ -8,7 +8,7 @@ export default class Navigation extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/" style={{color: '#009B9E',}}>WWHS Pinboard</a>
+            <a href="/" style={{color: '#009B9E',}}>The Pinboard</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
