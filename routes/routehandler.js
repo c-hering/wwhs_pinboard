@@ -7,6 +7,7 @@ module.exports = app => {
 	// app.route('/rating').get(controller.getRating);
 	//app.route('/deleteMessages').get(controller.deleteMessages);
 
+	app.route('/sms').post(controller.testSMS);
 	app.route('/messages').post(controller.newMessage);
 	app.route('/rating').post(controller.handleRating);
 };

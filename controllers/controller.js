@@ -1,5 +1,6 @@
 var sqlite3 = require('sqlite3').verbose()
 const uuidGen = require('uuid/v4')
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 var db = new sqlite3.Database('./serverdb.db')
 
 
@@ -61,14 +62,24 @@ exports.getMessagesLen = (req,res) => {
 // 	}
 // };
 
+exports.testSMS = (req,res) => {
+	console.log(req.body);
+	console.log(req.body.Body);
+	const twiml = new MessagingResponse();
+	twiml.message('Test Success!');
+	res.writeHead(200, {'Content-Type':'text/xml'});
+	res.end(twiml.toString());
+};
+
 exports.newMessage = (req,res) => {
 	db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
+	console.log(req.body)
 	if(req.body !== {}){
 		var id = uuidGen();
-		var rating = req.body.rating;
-		var message = req.body.msg;
+		var message = req.body.Body;
+		message = message.replace(/'/g,"''");
 		db.serialize(() => {
-			db.run("INSERT INTO messages (ID,TIMESTAMP,RATING,MSG) \ VALUES (" + "'" + id + "'" + "," + "datetime('now','localtime')," + rating + "," + message + ")")
+			db.run("INSERT INTO messages (ID,TIMESTAMP,RATING,MSG) \ VALUES (" + "'" + id + "'" + "," + "datetime('now','localtime'),0,'" + message + "')")
 		})
 		res.send("Message Added!")
 	}else{
