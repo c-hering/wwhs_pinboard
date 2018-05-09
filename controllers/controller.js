@@ -4,7 +4,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 var db = new sqlite3.Database('./serverdb.db')
 const SimpleNodeLogger = require('simple-node-logger'),
     opts = {
-        logFilePath:'../logs/message_logs.log',
+        logFilePath:'./logs/message_logs.log',
         timestampFormat:'YYYY-MM-DD HH:mm:ss.SSS'
     },
 log = SimpleNodeLogger.createSimpleLogger( opts );
