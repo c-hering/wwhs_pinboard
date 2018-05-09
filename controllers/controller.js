@@ -65,10 +65,9 @@ exports.newMessage = (req,res) => {
 	db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
 	if(req.body !== {}){
 		var id = uuidGen();
-		var rating = req.body.rating;
 		var message = req.body.msg;
 		db.serialize(() => {
-			db.run("INSERT INTO messages (ID,TIMESTAMP,RATING,MSG) \ VALUES (" + "'" + id + "'" + "," + "datetime('now','localtime')," + rating + "," + message + ")")
+			db.run("INSERT INTO messages (ID,TIMESTAMP,RATING,MSG) \ VALUES (" + "'" + id + "'" + "," + "datetime('now','localtime'),0," + message + ")")
 		})
 		res.send("Message Added!")
 	}else{
