@@ -29,7 +29,7 @@ export default class WarningDismissable extends React.Component {
           <p>
             Any posts deemed offensive will be removed.
 
-            All posts stay anonymous.
+            All posts stay anonymous but they will be logged. The logs will not be looked at unless needed for banning purposes and/or legal.
 
             Please do not post anything too bad. Have fun, we are not trying to get people hurt.
           </p>
