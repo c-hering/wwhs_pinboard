@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Well, Glyphicon, Button } from 'react-bootstrap';
-
+import { Table, Well, Glyphicon, Badge, Button } from 'react-bootstrap';
+import BadgeRow from './BadgeRow';
 export default class MessageRow extends Component {
   constructor(props) {
       super(props);
@@ -45,6 +45,7 @@ export default class MessageRow extends Component {
   }
 
   render(){
+    const tags = ["tag1","tag2","tag3"];
     return(
       <tr>
         <td>{this.props.id}</td>
@@ -56,7 +57,10 @@ export default class MessageRow extends Component {
             <Glyphicon glyph="chevron-down"/>
           </Button>
         </td>
-        <td><Well style={{margin: 0,}}>{this.props.message}</Well></td>
+        <td>
+          <Well style={{margin: 0,}}>{this.props.message}</Well>
+          <BadgeRow badgeArr={tags}/>
+        </td>
       </tr>
     );
   }
