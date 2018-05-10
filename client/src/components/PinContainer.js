@@ -29,7 +29,7 @@ export default class PinContainer extends Component {
     this.setState({
       page: this.state.page++
     })
-    this.fetchMessages()
+    this.fetchMessages(true)
   }
 
   fetchMessagesLen = () => {
@@ -43,7 +43,7 @@ export default class PinContainer extends Component {
       })
   }
 
-  fetchMessages = () => {
+  fetchMessages = concat => {
     var msgs = [];
     this.fetchMessagesLen()
     fetch('http://ec2-52-14-193-119.us-east-2.compute.amazonaws.com:3001/messages/' + this.props.sortBy + '/' + this.state.page)
@@ -53,12 +53,17 @@ export default class PinContainer extends Component {
         msgJSON.map((row,index) => {
           msgs.push(<MessageRow key={row.ID} onRateUp={() => this.rate(row.ID, 'up')} onRateDown={() => this.rate(row.ID,  'down')} id={index} rating={row.RATING} message={row.MSG}/>)
         })
-      this.setState({messages: this.state.messages.concat(msgs)})
+      concat ? this.setState({messages: this.state.messages.concat(msgs)}) : this.setState({messages: msgs})
     })
   }
 
   componentDidMount = () => {
-    this.fetchMessages()
+    this.fetchMessages(false)
+    this.timerID = setInterval(() => this.fetchMessages(false), 3000)
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.timerID)
   }
 
   render(){
