@@ -25,18 +25,18 @@ exports.getMessages = (req,res) => {
 	var offset = parseInt(req.params.page) * 50
 	if(req.params.order === 'time'){
 		var data = [];
-		db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
-		db.each('SELECT id, rating, msg FROM messages ORDER BY datetime(TIMESTAMP) DESC LIMIT 50 OFFSET ' + offset, (err,row) => {
-			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
+		db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL, TAGS TEXT);')
+		db.each('SELECT id, rating, msg, tags FROM messages ORDER BY datetime(TIMESTAMP) DESC LIMIT 50 OFFSET ' + offset, (err,row) => {
+			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg, "tags" : row.tags}
 			data.push(row);
 		}, () => {
 			res.json(data);
 		});
 	}else if(req.params.order == 'rating'){
 		var data = [];
-		db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
-		db.each('SELECT id, rating, msg FROM messages ORDER BY rating DESC LIMIT 50 OFFSET ' + offset, (err,row) => {
-			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg}
+		db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL, TAGS TEXT);')
+		db.each('SELECT id, rating, msg, tags FROM messages ORDER BY rating DESC LIMIT 50 OFFSET ' + offset, (err,row) => {
+			let tmp = {"id" : row.id, "rating" : row.rating, "msg" : row.msg, "tags" : row.tags}
 			data.push(row);
 		}, () => {
 			res.json(data);
@@ -77,15 +77,19 @@ exports.testSMS = (req,res) => {
 };
 
 exports.newMessage = (req,res) => {
-	db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL);')
+	db.run('CREATE TABLE IF NOT EXISTS messages (ID PRIMARY KEY,TIMESTAMP TEXT NOT NULL,RATING INT NOT NULL,MSG TEXT NOT NULL, TAGS TEXT);')
 	// console.log(req.body)
 	log.info(req.body);
 	if(req.body !== {}){
 		var id = uuidGen();
 		var message = req.body.Body;
+    var tags = req.body.tags;
 		message = message.replace(/'/g,"''");
-		db.serialize(() => {
-			db.run("INSERT INTO messages (ID,TIMESTAMP,RATING,MSG) \ VALUES (" + "'" + id + "'" + "," + "datetime('now','localtime'),0,'" + message + "')")
+    if(tags !== 'undefined'){
+      tags = tags.replace(/'/g,"''");
+    }
+    db.serialize(() => {
+			db.run("INSERT INTO messages (ID,TIMESTAMP,RATING,MSG,TAGS) \ VALUES (" + "'" + id + "'" + "," + "datetime('now','localtime'),0,'" + message + "','" + tags + "')")
 		})
 		res.send("Message Added!")
 	}else{
